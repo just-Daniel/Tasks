@@ -36,7 +36,7 @@ const followUpDocuments = {
      'travelTicket-3': {
        status: 'UPLOADED_OK',
        toDate: 1618858984887,
-       fromDate: 1580665435837
+       fromDate: 1580665435836
     }
    }
  },
@@ -44,6 +44,10 @@ const followUpDocuments = {
  another: false
 };
  
+const entryDate = {
+  from: 1580665435837,
+  to: 1619036589958
+}
 
 const calculateDays = (followUpDocuments) => {
   let totalDays = 0;
@@ -59,9 +63,13 @@ const calculateDays = (followUpDocuments) => {
         let checkStatus = ALLOWED_STATUSES.includes(data.status);
 
         if (checkStatus && data.toDate && data.fromDate) {
-          let daysDifference = Math.floor((data.toDate - data.fromDate)/1000/60/60/24);
+
+          if(entryDate.from <= data.fromDate && entryDate.to >= data.toDate) {
+            let daysDifference = Math.round((data.toDate - data.fromDate)/1000/60/60/24);
+            
+            totalDays += daysDifference
+          }
           
-          totalDays += daysDifference
         }
       }
 
